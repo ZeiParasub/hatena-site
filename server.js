@@ -8,9 +8,6 @@ const port = process.env.PORT || 3000; // 環境変数PORTを優先する
 app.use(express.json());
 app.use(cors()); // CORS設定追加
 
-// 静的ファイル提供
-app.use('/image', express.static(path.join(__dirname, 'image')));
-
 app.get('/', (req, res) => {
   res.send(`
         <!DOCTYPE html>
@@ -193,7 +190,7 @@ app.get('/login', (req, res) => {
           if (response.ok) {
             const data = { error: 'login' };
             const queryParams = new URLSearchParams(data).toString();
-            window.location.href = '/destination?${queryParams}';
+            window.location.href = '/destination?\${queryParams}';
           } else {
             localStorage.removeItem('authToken');
           }
