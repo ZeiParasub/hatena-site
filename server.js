@@ -78,7 +78,7 @@ app.get('/', (req, res) => {
   </aside>
 </div>
 <script>
-const sidebar1 = 'http://hatena-scratch.f5.si/image/officialstudio.jpeg';
+const sidebar1 = 'https://hatena-scratch.f5.si/image/officialstudio';
 document.getElementById('sidebar1').src = sidebar1;
 </script>
 </body>
