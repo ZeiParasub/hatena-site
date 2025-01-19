@@ -5,8 +5,12 @@ const port = 3000;
 // JSONボディを解析するためのミドルウェア
 app.use(express.json());
 
+app.get('/', (req, res) => 
+
+
+
 // GETリクエストの処理
-app.get('/api/data', (req, res) => {
+app.get('/api/test', (req, res) => {
     res.json({ message: 'GETリクエストを受け取りました！' });
 });
 
