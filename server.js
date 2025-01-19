@@ -10,59 +10,7 @@ app.use(cors()); // CORS設定追加
 
 app.get('/', (req, res) => {
   res.send(`
-        <!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>はてなscratch式会社</title>
-  <style>
-    img {
-        max-width: 100%;
-        height: auto;
-    }
-   body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-   }
-
-  .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    padding: 10px;
-    background-color: #5de3f5; /* ヘッダーの背景色 */
-    color: #ffffff; /* ヘッダー内の文字色 */
-    font-size: 50px; /* 文字サイズを調整 */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* 下に影をつける */
-    z-index: 1000; /* 他の要素の上に表示 */
-  }
-  
-  .container {
-    display: flex;
-    margin-top: 70px; /* ヘッダーの高さ分下げる */
-  }
-  
-  .content {
-    flex: 3; /* メインコンテンツの幅を調整 */
-    padding: 20px;
-    margin-right: 200px; /* サイドバーの幅分を確保 */
-    background-color: #f4f4f4; /* 背景色を調整 */
-  }
-  
-  .rightbar {
-    position: fixed; /* サイドバーを固定 */
-    right: 0; /* 右端に固定 */
-    margin-top: 10px;
-    width: 200px; /* サイドバーの幅 */
-    height: calc(100vh - 70px);  /* ヘッダーを除いた高さを指定 */
-    padding: 20px; /* セミコロン追加 */
-    background-color: #e0e0e0; /* サイドバーの背景色を調整 */
-    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.1); /* 左側に影をつける */
-  }
-  </style>
+          </style>
 </head>
 <body>
 <div class="header">はてなscratch式会社</div>
@@ -74,7 +22,15 @@ app.get('/', (req, res) => {
     </a>
   </aside>
 </div>
+<div class="loginerror" id="loginerror">既にログインしています</div>
 <script>
+const element = document.getElementById('loginerror');
+const { error } = req.query;
+if (error = login) {
+  element.style.display = 'block';
+} else{
+  element.style.display = 'none';
+}
 const sidebar1 = 'https://hatena-scratch.f5.si/image/officialstudio';
 document.getElementById('sidebar1').src = sidebar1;
 </script>
