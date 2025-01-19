@@ -88,9 +88,9 @@ app.get('/image/officialstudio', (req, res) => {
 app.get('/login', (req, res) => {
     res.send(`
         <!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
+        <html lang="ja">
+        <head>
+        <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ログインページ</title>
   <style>
