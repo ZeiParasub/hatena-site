@@ -63,6 +63,8 @@ app.get('/', (req, res) => {
     box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.1); /* 左側に影をつける */
   }
   .loginerror{
+    position: fixed;
+    top: 0;
     padding: 10px;
     margin-bottom: 10px;
     border: 2px solid #ff4444;
