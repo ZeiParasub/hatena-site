@@ -23,35 +23,24 @@
       z-index: 1000; /* 他の要素の上に表示 */
     }
     .container {
-      margin-top: 70px;
       display: flex;
+      margin-top: 70px; /* ヘッダーの高さ分下げる */
     }
     .content {
       flex: 3;
       padding: 20px;
       background-color: #f4f4f4;
+      margin-right: 200px; /* サイドバーの幅分を確保 */
     }
     .rightbar {
-      width: 200px;
-      position: fixed;
-      right: 0;
-      top: 70px;
-      height: calc(100vh - 70px);
-      background-color: #e0e0e0;
-      padding: 20px;
-    }
-    .loginerror {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 10px;
-      border: 2px solid #ff4444;
-      background-color: #ffdddd;
-      z-index: 9999;
-      display: none;
-      text-align: center;
-      border-radius: 5px;
+      position: fixed; /* サイドバーを固定 */
+      right: 0; /* 右端に固定 */
+      margin-top: 10px;
+      width: 200px; /* サイドバーの幅 */
+      height: calc(100vh - 70px);  /* ヘッダーを除いた高さを指定 */
+      padding: 20px
+      background-color: #e0e0e0; /* サイドバーの背景色を調整 */
+      box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.1); /* 左側に影をつける */
     }
   </style>
 </head>
