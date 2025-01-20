@@ -69,7 +69,6 @@ app.get('/', (req, res) => {
     background-color: #ffdddd;
     z-index: 9999;
     text-align: center;
-    padding: 0 3em 0;
     margin 1px　20px　1px　20px;
   }
   </style>
