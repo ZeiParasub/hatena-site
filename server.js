@@ -66,7 +66,7 @@ app.get('/', (req, res) => {
     padding: 10px;
     margin-bottom: 10px;
     border: 2px solid #ff4444;
-    background-color: #ffdddd
+    background-color: #ffdddd;
     z-index: 9999;
     text-align: center;
     padding: 0 3em 0;
@@ -88,7 +88,7 @@ app.get('/', (req, res) => {
 <script>
 const element = document.getElementById('loginerror');
 const { error } = req.query;
-if (error = login) {
+if (error = 'login') {
   element.style.display = 'block';
 } else{
   element.style.display = 'none';
