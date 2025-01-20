@@ -62,6 +62,13 @@ app.get('/', (req, res) => {
     background-color: #e0e0e0; /* サイドバーの背景色を調整 */
     box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.1); /* 左側に影をつける */
   }
+  .loginerror{
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #ff4444;
+    background-color: #ffdddd
+    z-index: 9999;
+  }
   </style>
 </head>
 <body>
