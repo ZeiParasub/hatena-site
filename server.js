@@ -64,7 +64,6 @@ app.get('/', (req, res) => {
   }
   .loginerror{
     position: fixed;
-    top: 0;
     padding: 10px;
     margin-bottom: 10px;
     border: 2px solid #ff4444;
