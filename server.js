@@ -208,7 +208,7 @@ app.get('/login', (req, res) => {
           if (response.ok) {
             const data = { error: 'login' };
             const queryParams = new URLSearchParams(data).toString();
-            window.location.href = '/?\${queryParams}';
+            window.location.href = \`/?\${queryParams}\`;
           } else {
             localStorage.removeItem('authToken');
           }
