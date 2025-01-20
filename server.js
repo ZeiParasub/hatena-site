@@ -42,6 +42,27 @@ app.get('/', (req, res) => {
   
   .container {
     display: flex;
+    margin-top: 70px; /* ヘッダーの高さ分下げる */
+  }
+  
+  .content {
+    flex: 3; /* メインコンテンツの幅を調整 */
+    padding: 20px;
+    margin-right: 200px; /* サイドバーの幅分を確保 */
+    background-color: #f4f4f4; /* 背景色を調整 */
+  }
+  
+  .rightbar {
+    position: fixed; /* サイドバーを固定 */
+    right: 0; /* 右端に固定 */
+    margin-top: 10px;
+    width: 200px; /* サイドバーの幅 */
+    height: calc(100vh - 70px);  /* ヘッダーを除いた高さを指定 */
+    padding: 20px
+    background-color: #e0e0e0; /* サイドバーの背景色を調整 */
+    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.1); /* 左側に影をつける */
+  }
+  </style>
 </head>
 <body>
 <div class="header">はてなscratch式会社</div>
