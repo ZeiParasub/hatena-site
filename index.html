@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>はてなscratch式会社</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #5de3f5;
+      color: white;
+      text-align: center;
+      line-height: 60px;
+      z-index: 1000;
+    }
+    .container {
+      margin-top: 70px;
+      display: flex;
+    }
+    .content {
+      flex: 3;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .rightbar {
+      width: 200px;
+      position: fixed;
+      right: 0;
+      top: 70px;
+      height: calc(100vh - 70px);
+      background-color: #e0e0e0;
+      padding: 20px;
+    }
+    .loginerror {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px;
+      border: 2px solid #ff4444;
+      background-color: #ffdddd;
+      z-index: 9999;
+      display: none;
+      text-align: center;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">はてなscratch式会社</div>
+  <div class="container">
+    <main class="content">内容</main>
+    <aside class="rightbar">
+      <a href="https://scratch.mit.edu/projects/1050793789/">
+        <img id="sidebar1" src="" alt="sidebar1">
+      </a>
+    </aside>
+  </div>
+  <div class="loginerror" id="loginerror">既にログインしています</div>
+  <script>
+    // クエリパラメータ取得
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get('error');
+    if (error === 'login') {
+      document.getElementById('loginerror').style.display = 'block';
+    }
+
+    // サイドバー画像設定
+    const sidebar1 = '/image/officialstudio';
+    document.getElementById('sidebar1').src = sidebar1;
+  </script>
+</body>
+</html>
