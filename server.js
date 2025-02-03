@@ -24,6 +24,7 @@ app.get('/image/officialstudio', (req, res) => {
 
 app.use('/register', express.static(path.join(__dirname, 'register')));
 app.use('/login', express.static(path.join(__dirname, 'login')));
+app.use('/menu', express.static(path.join(__dirname, 'menu')));
 
 // GETリクエストの処理
 app.get('/api/test', (req, res) => {
