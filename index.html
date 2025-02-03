@@ -24,6 +24,17 @@
       color: #ffffff;
       opacity: 0.8;
     }
+    .menu {
+      background-color: #5de3f5;
+      color: #ffffff;
+      padding: 10px 30px;
+      text-decoration: none;
+      font-size: 1em;
+    }
+    .menu:hover {
+      color: #ffffff;
+      opacity: 0.8;
+    }
     .header {
       white-space: nowrap;
       position: fixed;
@@ -74,7 +85,7 @@
   </style>
 </head>
 <body>
-  <div class="header">はてなscratch式会社<a href="https://hatena-scratch.f5.si/login" class="login">ログイン</a></div>
+  <div class="header">はてなscratch式会社<a href="https://hatena-scratch.f5.si/login" class="login" id="login">ログイン</a><a href="https://hatena-scratch.f5.si/login" class="menu" id="menu">メニュー</a></div>
   <div class="container">
     <main class="content">内容</main>
     <aside class="rightbar">
@@ -85,6 +96,32 @@
   </div>
   <div class="loginerror" id="loginerror">既にログインしています</div>
   <script>
+    function isTokenValid(token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1])); // ペイロードをデコード
+    const exp = payload.exp; // 有効期限 (秒単位のUNIXタイムスタンプ)
+    
+    if (!exp) return false; // `exp` がない場合は無効
+
+    const now = Math.floor(Date.now() / 1000); // 現在時刻（秒単位）
+    return now < exp; // 現在時刻が有効期限を超えていないかチェック
+  } catch (e) {
+    return false; // デコードエラー（不正なJWT）
+  }
+}
+    document.addEventListener('DOMContentLoaded', async () => {
+      const login = document.getElementById('login');
+      const menu = document.getementById('menu');
+      const token = localStorage.getItem('authToken');
+　　　　document.getElementById("menu").href = `https://hatena-scratch.f5.si/menu?url=${location.href}`;
+      if ifTokenValid(token) {
+        menu.style.display = 'block';
+        login.style.display = 'none';
+      } else {
+        login.style.display = 'block';
+        menu.style.display = 'none';
+      }
+    });
     // クエリパラメータ取得
     const params = new URLSearchParams(window.location.search);
     const error = params.get('error');
