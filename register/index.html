@@ -87,6 +87,10 @@
   </div>
 
   <script>
+    function isValidString(str) {
+      return /^[a-zA-Z-_]+$/.test(str);
+　　　}
+    
     document.addEventListener('DOMContentLoaded', async () => {
       const token = localStorage.getItem('authToken'); // トークンを取得
 
@@ -133,7 +137,7 @@
         document.getElementById('error-message').style.display = 'none';
       }
 
-      if ("文字列".match(/[^a-z]/i)) {
+      if (isValidString(username)) {
       // リクエストを送信するAPIエンドポイント
       const registerUrl = 'https://api.hatena-scratch.f5.si/register';
 
