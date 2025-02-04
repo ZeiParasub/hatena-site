@@ -113,10 +113,11 @@
 }
     document.addEventListener('DOMContentLoaded', async () => {
       const login = document.getElementById('login');
-      const menu = document.getementById('menu');
+      const menu = document.getElementById('menu');
       const token = localStorage.getItem('authToken');
 　　　　document.getElementById("menu").href = `https://hatena-scratch.f5.si/menu?url=${location.href}`;
-      if ifTokenValid(token) {
+      if (isTokenValid(token)) {
+
         menu.style.display = 'block';
         login.style.display = 'none';
       } else {
