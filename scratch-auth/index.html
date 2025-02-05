@@ -6,30 +6,41 @@
     <title>Scratch Auth</title>
   </head>
   <body>
-<a id="link-scratch" href="#">Scratch アカウントを紐付ける</a>
-<script>
-document.getElementById('link-scratch').addEventListener('click', async () => {
-    const user = await response.json();
-    const token = localStorage.getItem('authToken');
-    if (isTokenValid(token)) {
-        window.location.href = `https://api.hatena-scratch.f5.si/auth/login?userId=${user.id}`;
-    } else {
-        alert('ログインしてください');
-    }
-});
-function isTokenValid(token) {
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1])); // ペイロードをデコード
-    const exp = payload.exp; // 有効期限 (秒単位のUNIXタイムスタンプ)
-    
-    if (!exp) return false; // `exp` がない場合は無効
+    <a id="link-scratch" href="#">Scratch アカウントを紐付ける</a>
+    <script>
+      document.getElementById('link-scratch').addEventListener('click', async () => {
+        const token = localStorage.getItem('authToken');
 
-    const now = Math.floor(Date.now() / 1000); // 現在時刻（秒単位）
-    return now < exp; // 現在時刻が有効期限を超えていないかチェック
-  } catch (e) {
-    return false; // デコードエラー（不正なJWT）
-  }
-}
-</script>
-</body>
+        if (!token || !isTokenValid(token)) {
+          alert('ログインしてください');
+          return;
+        }
+
+        // トークンのペイロード（中身）を取得
+        const payload = JSON.parse(atob(token.split('.')[1]));
+
+        if (!payload.userId) {
+          alert('ユーザーIDが見つかりません');
+          return;
+        }
+
+        // Scratch Auth へリダイレクト
+        window.location.href = `https://api.hatena-scratch.f5.si/auth/login?userId=${payload.userId}`;
+      });
+
+      function isTokenValid(token) {
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1])); // ペイロードをデコード
+          const exp = payload.exp; // 有効期限 (秒単位のUNIXタイムスタンプ)
+          
+          if (!exp) return false; // `exp` がない場合は無効
+
+          const now = Math.floor(Date.now() / 1000); // 現在時刻（秒単位）
+          return now < exp; // 現在時刻が有効期限を超えていないかチェック
+        } catch (e) {
+          return false; // デコードエラー（不正なJWT）
+        }
+      }
+    </script>
+  </body>
 </html>
