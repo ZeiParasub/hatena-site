@@ -94,6 +94,7 @@
 
         let payload = decodeTokenPayload(token);
         let encodedTokenUser = encodeWithEncodelist(payload.user);
+        let encodedScratchUser = encodeWithEncodelist(scratch_username);
 
         console.log("🟢 トークンユーザー:", payload.user);
         console.log("🟢 エンコードユーザー:", encodedTokenUser);
@@ -104,10 +105,12 @@
         // **IDをサイトに表示**
         document.getElementById("id").innerText = ID;
         document.getElementById("formDiv").style.display = "none";
-        document.getElementById("idDisplayDiv").style.display = "block";
+        document.getElementById("idDisplayDiv").style.display = "block"
 
+        let ID2 = `${encodedUUID}00${encodedScratchUser}00${encodedTokenUser}`;
+        
         // **グローバル変数に保存**
-        window.generatedID = ID;
+        window.generatedID = ID2;
         window.generatedUsername = payload.user;
         window.generatedScratchUsername = scratch_username;
 
