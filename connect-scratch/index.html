@@ -45,7 +45,7 @@
 
     // UUIDを生成
     function generateUUID() {
-        return crypto.randomUUID();
+        return crypto.randomUUID().replace(/-/g, "");  // "-" を削除
     }
 
     // JWTのペイロードをデコード
@@ -73,7 +73,10 @@
     // ID生成
     function generateID() {
         let UUID = generateUUID();  
+        console.log("生成された UUID:", UUID);  // デバッグ用ログ
+
         let encodedUUID = encodeWithEncodelist(UUID);
+        console.log("エンコード後の UUID:", encodedUUID);  // デバッグ用ログ
 
         // トークン取得
         const token = localStorage.getItem("authToken");
@@ -83,10 +86,14 @@
         }
 
         let payload = decodeTokenPayload(token);
+        console.log("デコードしたトークンペイロード:", payload);  // デバッグ用ログ
+
         let encodedTokenUser = encodeWithEncodelist(payload.user);
+        console.log("エンコード後のユーザー名:", encodedTokenUser);  // デバッグ用ログ
 
         // ID を生成（「UUID、00、トークンの username」）
         let ID = `${encodedUUID}00${encodedTokenUser}`;
+        console.log("生成された ID:", ID);  // デバッグ用ログ
 
         // IDをサイトに表示
         document.getElementById("id").innerText = ID;
@@ -105,14 +112,16 @@
 
         let URL = `https://scratch.hatena-scratch.f5.si/cloud-get?ID=${ID}&username=${username}`;
 
+        console.log("確認リクエスト送信:", URL);  // デバッグ用ログ
+
         fetch(URL, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
-                alert(data ? "確認成功！" : "確認失敗");
+                console.log("確認レスポンス:", data);  // デバッグ用ログ
+                alert(data.success ? "確認成功！" : `確認失敗: ${data.error}`);
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('エラー:', error);
                 alert("エラーが発生しました");
             });
     }
