@@ -11,24 +11,24 @@
                 <input type="text" name="name" id="name" required />
             </div>
             <div class="botan">
-                <input type="button" value="登録" onclick="return generateID();" />
+                <input type="button" value="登録" onclick="generateID();" />
             </div>
         </form>
     </div>
 
     <div id="idDisplayDiv" style="display:none;">
         <p>ID: <span id="id"></span></p>
-        <button id="checkButton" type="button" onclick="return verifyID();">確認</button>
+        <button id="checkButton" type="button" onclick="verifyID();">確認</button>
     </div>
 </body>
 
 <script>
-    // エンコード用のリスト
+    // **エンコード用のリスト**
     const encodelist = ["null", "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", 
                         "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", 
                         "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "_"];
 
-    // 文字列を encodelist を使って数値化
+    // **文字列を encodelist を使って数値化**
     function encodeWithEncodelist(input) {
         let encodedValues = [];
         for (let i = 0; i < input.length; i++) {
@@ -43,12 +43,12 @@
         return encodedValues.join("");  
     }
 
-    // UUIDを生成
+    // **UUIDを生成**
     function generateUUID() {
-        return crypto.randomUUID().replace(/-/g, "");  // "-" を削除
+        return crypto.randomUUID();
     }
 
-    // JWTのペイロードをデコード
+    // **JWTのペイロードをデコード**
     function decodeTokenPayload(token) {
         try {
             return JSON.parse(atob(token.split('.')[1])); 
@@ -57,7 +57,7 @@
         }
     }
 
-    // JWTが有効かチェック
+    // **JWTが有効かチェック**
     function isTokenValid(token) {
         try {
             const payload = decodeTokenPayload(token);
@@ -70,15 +70,17 @@
         }
     }
 
-    // ID生成
+    // **ID生成**
     function generateID() {
+        console.log("🔵 generateID() 実行");
+
         let UUID = generateUUID();  
-        console.log("生成された UUID:", UUID);  // デバッグ用ログ
-
         let encodedUUID = encodeWithEncodelist(UUID);
-        console.log("エンコード後の UUID:", encodedUUID);  // デバッグ用ログ
 
-        // トークン取得
+        console.log("🟢 UUID:", UUID);
+        console.log("🟢 エンコードUUID:", encodedUUID);
+
+        // **トークン取得**
         const token = localStorage.getItem("authToken");
         if (!token || !isTokenValid(token)) {
             alert("サインインしてください");
@@ -86,42 +88,44 @@
         }
 
         let payload = decodeTokenPayload(token);
-        console.log("デコードしたトークンペイロード:", payload);  // デバッグ用ログ
-
         let encodedTokenUser = encodeWithEncodelist(payload.user);
-        console.log("エンコード後のユーザー名:", encodedTokenUser);  // デバッグ用ログ
 
-        // ID を生成（「UUID、00、トークンの username」）
+        console.log("🟢 トークンユーザー:", payload.user);
+        console.log("🟢 エンコードユーザー:", encodedTokenUser);
+
+        // **ID を生成**
         let ID = `${encodedUUID}00${encodedTokenUser}`;
-        console.log("生成された ID:", ID);  // デバッグ用ログ
 
-        // IDをサイトに表示
+        // **IDをサイトに表示**
         document.getElementById("id").innerText = ID;
         document.getElementById("formDiv").style.display = "none";
         document.getElementById("idDisplayDiv").style.display = "block";
 
-        // グローバル変数に保存（確認時に使用）
+        // **グローバル変数に保存**
         window.generatedID = ID;
         window.generatedUsername = payload.user;
+
+        console.log("🟢 生成されたID:", ID);
     }
 
-    // IDを確認する
+    // **IDを確認する**
     function verifyID() {
+        console.log("🔵 verifyID() 実行");
+
         let ID = window.generatedID;
         let username = window.generatedUsername;
 
         let URL = `https://scratch.hatena-scratch.f5.si/cloud-get?ID=${ID}&username=${username}`;
-
-        console.log("確認リクエスト送信:", URL);  // デバッグ用ログ
+        console.log("🟢 確認リクエストURL:", URL);
 
         fetch(URL, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                console.log("確認レスポンス:", data);  // デバッグ用ログ
-                alert(data.success ? "確認成功！" : `確認失敗: ${data.error}`);
+                console.log("🟢 サーバーのレスポンス:", data);
+                alert(data ? "確認成功！" : "確認失敗");
             })
             .catch(error => {
-                console.error('エラー:', error);
+                console.error('🔴 エラー:', error);
                 alert("エラーが発生しました");
             });
     }
