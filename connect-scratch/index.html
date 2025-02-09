@@ -20,6 +20,7 @@
         <p>ID: <span id="id"></span></p>
         <button id="checkButton" type="button" onclick="verifyID();">確認</button>
     </div>
+    <div id="log"></div>
 </body>
 
 <script>
@@ -41,6 +42,19 @@
             }
         }
         return encodedValues.join("");  
+    }
+
+    function log(log) {
+        // id属性で要素を取得
+let textbox_element = document.getElementById('log');
+
+// 新しいHTML要素を作成
+let new_element = document.createElement('p');
+new_element.textContent = log;
+
+// 指定した要素の中の末尾に挿入
+textbox_element.appendChild(new_element);
+
     }
 
     // **UUIDを生成**
