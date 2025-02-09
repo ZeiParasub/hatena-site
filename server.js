@@ -26,7 +26,7 @@ app.use('/register', express.static(path.join(__dirname, 'register')));
 app.use('/login', express.static(path.join(__dirname, 'login')));
 app.use('/menu', express.static(path.join(__dirname, 'menu')));
 app.use('/scratch-auth', express.static(path.join(__dirname, 'scratch-auth')));
-app.use('/connect-scratch', express.static(path.join(__dirnMe, 'connect-scratch')));
+app.use('/connect-scratch', express.static(path.join(__dirname, 'connect-scratch')));
 
 // GETリクエストの処理
 app.get('/api/test', (req, res) => {
