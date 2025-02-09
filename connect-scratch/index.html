@@ -5,7 +5,7 @@
 </head>
 <body>
     <div id="formDiv">
-        <form action="" method="get" class="form-example">
+        <form action="" method="get" class="form-example" name="form">
             <div class="username" id="usernameDiv">
                 <label for="name">Scratchのユーザー名は？:</label>
                 <input type="text" name="name" id="name" required />
@@ -72,6 +72,11 @@
 
     // **ID生成**
     function generateID() {
+        if (form.name.value == ""){
+            alert("入力してください");
+            return;
+        }
+        scratch_username = form.name.value;
         console.log("🔵 generateID() 実行");
 
         let UUID = generateUUID();  
@@ -104,6 +109,7 @@
         // **グローバル変数に保存**
         window.generatedID = ID;
         window.generatedUsername = payload.user;
+        window.generatedScratchUsername = scratch_username;
 
         console.log("🟢 生成されたID:", ID);
     }
@@ -114,8 +120,9 @@
 
         let ID = window.generatedID;
         let username = window.generatedUsername;
+        let scratch_username = window.generatedScratchUsername;
 
-        let URL = `https://scratch.hatena-scratch.f5.si/cloud-get?ID=${ID}&username=${username}`;
+        let URL = `https://scratch.hatena-scratch.f5.si/cloud-get?ID=${ID}&username=${username}&scratch_username=$`;
         console.log("🟢 確認リクエストURL:", URL);
 
         fetch(URL, { method: 'GET' })
