@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>認証用</title>
+</head>
+<body>
+    <div id="formDiv">
+        <form action="" method="get" class="form-example">
+            <div class="username" id="usernameDiv">
+                <label for="name">Scratchのユーザー名は？:</label>
+                <input type="text" name="name" id="name" required />
+            </div>
+            <div class="botan">
+                <input type="button" value="登録" onclick="return generateID();" />
+            </div>
+        </form>
+    </div>
+
+    <div id="idDisplayDiv" style="display:none;">
+        <p>ID: <span id="id"></span></p>
+        <button id="checkButton" type="button" onclick="return verifyID();">確認</button>
+    </div>
+</body>
+
+<script>
+    // エンコード用のリスト
+    const encodelist = ["null", "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", 
+                        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", 
+                        "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "_"];
+
+    // 文字列を encodelist を使って数値化
+    function encodeWithEncodelist(input) {
+        let encodedValues = [];
+        for (let i = 0; i < input.length; i++) {
+            let char = input[i].toLowerCase();
+            let index = encodelist.indexOf(char);
+            if (index !== -1) {
+                encodedValues.push(index.toString().padStart(2, '0')); // 2桁に統一
+            } else {
+                encodedValues.push("99"); // encodelist にない文字は "99"
+            }
+        }
+        return encodedValues.join("");  
+    }
+
+    // UUIDを生成
+    function generateUUID() {
+        return crypto.randomUUID();
+    }
+
+    // JWTのペイロードをデコード
+    function decodeTokenPayload(token) {
+        try {
+            return JSON.parse(atob(token.split('.')[1])); 
+        } catch {
+            return null;
+        }
+    }
+
+    // JWTが有効かチェック
+    function isTokenValid(token) {
+        try {
+            const payload = decodeTokenPayload(token);
+            if (!payload || !payload.exp) return false;
+
+            const now = Math.floor(Date.now() / 1000);
+            return now < payload.exp; 
+        } catch {
+            return false;
+        }
+    }
+
+    // ID生成
+    function generateID() {
+        let UUID = generateUUID();  
+        let encodedUUID = encodeWithEncodelist(UUID);
+
+        // トークン取得
+        const token = localStorage.getItem("authToken");
+        if (!token || !isTokenValid(token)) {
+            alert("サインインしてください");
+            return;
+        }
+
+        let payload = decodeTokenPayload(token);
+        let encodedTokenUser = encodeWithEncodelist(payload.user);
+
+        // ID を生成（「UUID、00、トークンの username」）
+        let ID = `${encodedUUID}00${encodedTokenUser}`;
+
+        // IDをサイトに表示
+        document.getElementById("id").innerText = ID;
+        document.getElementById("formDiv").style.display = "none";
+        document.getElementById("idDisplayDiv").style.display = "block";
+
+        // グローバル変数に保存（確認時に使用）
+        window.generatedID = ID;
+        window.generatedUsername = payload.user;
+    }
+
+    // IDを確認する
+    function verifyID() {
+        let ID = window.generatedID;
+        let username = window.generatedUsername;
+
+        let URL = `https://scratch.hatena-scratch.f5.si/cloud-get?ID=${ID}&username=${username}`;
+
+        fetch(URL, { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                alert(data ? "確認成功！" : "確認失敗");
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("エラーが発生しました");
+            });
+    }
+</script>
+</html>
