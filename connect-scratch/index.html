@@ -81,6 +81,7 @@ textbox_element.appendChild(new_element);
     function isTokenValid(token) {
         try {
             const payload = decodeTokenPayload(token);
+            log(`🟢 payload:${payload}`);
             if (!payload || !payload.exp) return false;
 
             const now = Math.floor(Date.now() / 1000);
