@@ -107,6 +107,7 @@ textbox_element.appendChild(new_element);
 
         // **トークン取得**
         const token = localStorage.getItem("authToken");
+        log(`🟢 トークン:${token}`);
         if (!token || !isTokenValid(token)) {
             alert("サインインしてください");
             return;
@@ -116,8 +117,8 @@ textbox_element.appendChild(new_element);
         let encodedTokenUser = encodeWithEncodelist(payload.user);
         let encodedScratchUser = encodeWithEncodelist(scratch_username);
 
-        log("🟢 トークンユーザー:", payload.user);
-        log("🟢 エンコードユーザー:", encodedTokenUser);
+        log(`🟢 トークンユーザー:${payload.user}`);
+        log(`🟢 エンコードユーザー:${encodedTokenUser}`);
 
         // **ID を生成**
         let ID = `${encodedUUID}00${encodedTokenUser}`;
