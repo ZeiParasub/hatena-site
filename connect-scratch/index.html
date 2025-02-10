@@ -117,7 +117,7 @@ textbox_element.appendChild(new_element);
         }
 
         let payload = decodeTokenPayload(token);
-        log(`🟢 トークンユーザー:${payload.user}`);
+        log(`🟢 トークンユーザー:${payload.username}`);
         let encodedTokenUser = encodeWithEncodelist(payload.user);
         let encodedScratchUser = encodeWithEncodelist(scratch_username);
         log(`🟢 エンコードユーザー:${encodedTokenUser}`);
