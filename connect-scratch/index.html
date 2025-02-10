@@ -102,8 +102,8 @@ textbox_element.appendChild(new_element);
         let UUID = generateUUID();
         let encodedUUID = encodeWithEncodelist(UUID);
 
-        log("🟢 UUID:", UUID);
-        log("🟢 エンコードUUID:", encodedUUID);
+        log(`🟢 UUID: ${UUID}`);
+        log(`🟢 エンコードUUID: ${encodedUUID}`);
 
         // **トークン取得**
         const token = localStorage.getItem("authToken");
