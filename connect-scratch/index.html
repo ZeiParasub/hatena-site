@@ -86,6 +86,7 @@ textbox_element.appendChild(new_element);
 
             const now = Math.floor(Date.now() / 1000);
             log(`🟢 now:${now}`);
+            log(`🟢 token:${now < payload.exp}`);
             return now < payload.exp; 
         } catch {
             return false;
