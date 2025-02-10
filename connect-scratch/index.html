@@ -20,7 +20,9 @@
         <p>ID: <span id="id"></span></p>
         <button id="checkButton" type="button" onclick="verifyID();">確認</button>
     </div>
-    <div id="log"></div>
+    <div id="log">
+        <p>ログ:</p>
+    </div>
 </body>
 
 <script>
@@ -91,13 +93,13 @@ textbox_element.appendChild(new_element);
             return;
         }
         scratch_username = form.name.value;
-        console.log("🔵 generateID() 実行");
+        log("🔵 generateID() 実行");
 
         let UUID = generateUUID();  
         let encodedUUID = encodeWithEncodelist(UUID);
 
-        console.log("🟢 UUID:", UUID);
-        console.log("🟢 エンコードUUID:", encodedUUID);
+        log("🟢 UUID:", UUID);
+        log("🟢 エンコードUUID:", encodedUUID);
 
         // **トークン取得**
         const token = localStorage.getItem("authToken");
@@ -110,8 +112,8 @@ textbox_element.appendChild(new_element);
         let encodedTokenUser = encodeWithEncodelist(payload.user);
         let encodedScratchUser = encodeWithEncodelist(scratch_username);
 
-        console.log("🟢 トークンユーザー:", payload.user);
-        console.log("🟢 エンコードユーザー:", encodedTokenUser);
+        log("🟢 トークンユーザー:", payload.user);
+        log("🟢 エンコードユーザー:", encodedTokenUser);
 
         // **ID を生成**
         let ID = `${encodedUUID}00${encodedTokenUser}`;
@@ -128,28 +130,28 @@ textbox_element.appendChild(new_element);
         window.generatedUsername = payload.user;
         window.generatedScratchUsername = scratch_username;
 
-        console.log("🟢 生成されたID:", ID);
+        log("🟢 生成されたID:", ID);
     }
 
     // **IDを確認する**
     function verifyID() {
-        console.log("🔵 verifyID() 実行");
+        log("🔵 verifyID() 実行");
 
         let ID = window.generatedID;
         let username = window.generatedUsername;
         let scratch_username = window.generatedScratchUsername;
 
         let URL = `https://scratch.hatena-scratch.f5.si/cloud-get?ID=${ID}&username=${username}&scratch_username=$`;
-        console.log("🟢 確認リクエストURL:", URL);
+        log("🟢 確認リクエストURL:", URL);
 
         fetch(URL, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                console.log("🟢 サーバーのレスポンス:", data);
+                log("🟢 サーバーのレスポンス:", data);
                 alert(data ? "確認成功！" : "確認失敗");
             })
             .catch(error => {
-                console.error('🔴 エラー:', error);
+                log('🔴 エラー:', error);
                 alert("エラーが発生しました");
             });
     }
