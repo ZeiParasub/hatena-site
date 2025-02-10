@@ -137,7 +137,7 @@ textbox_element.appendChild(new_element);
         window.generatedUsername = payload.user;
         window.generatedScratchUsername = scratch_username;
 
-        log("🟢 生成されたID:", ID);
+        log(`🟢 生成されたID:${ID}`);
     }
 
     // **IDを確認する**
@@ -149,16 +149,16 @@ textbox_element.appendChild(new_element);
         let scratch_username = window.generatedScratchUsername;
 
         let URL = `https://scratch.hatena-scratch.f5.si/cloud-get?ID=${ID}&username=${username}&scratch_username=${scratch_username}`;
-        log("🟢 確認リクエストURL:", URL);
+        log(`🟢 確認リクエストURL:${URL}`);
 
         fetch(URL, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                log("🟢 サーバーのレスポンス:", data);
+                log(`🟢 サーバーのレスポンス:${data}`);
                 alert(data ? "確認成功！" : "確認失敗");
             })
             .catch(error => {
-                log('🔴 エラー:', error);
+                log(`🔴 エラー:${error}`);
                 alert("エラーが発生しました");
             });
     }
