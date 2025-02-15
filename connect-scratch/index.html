@@ -147,8 +147,9 @@ textbox_element.appendChild(new_element);
         let ID = window.generatedID;
         let username = window.generatedUsername;
         let scratch_username = window.generatedScratchUsername;
+        const token = localStorage.getItem("authToken");
 
-        let URL = `https://scratch.hatena-scratch.f5.si/cloud-get?ID=${ID}&username=${username}&scratch_username=${scratch_username}`;
+        let URL = `https://scratch.hatena-scratch.f5.si/cloud-get?ID=${ID}&username=${username}&scratch_username=${scratch_username}&token=${token}`;
         log(`🟢 確認リクエストURL:${URL}`);
 
         fetch(URL, { method: 'GET' })
