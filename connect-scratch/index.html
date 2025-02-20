@@ -116,6 +116,35 @@ textbox_element.appendChild(new_element);
             return;
         }
 
+        let URL = `https://scratch.hatena-scratch.f5.si/`;
+        log(`🟢 確認リクエストURL:${URL}`);
+
+        fetch(URL, { method: 'GET' })
+            .then(response => {
+                log(`🟢 ステータスコード: ${response.status}`);
+                return response.text();  // JSON解析前にテキストで確認
+            })
+            .then(text => {
+                log(`🟢 レスポンス内容: ${text}`);
+                let data;
+                try {
+                    data = JSON.parse(text);  // JSONに変換
+                } catch (e) {
+                      throw new Error("🔴 JSONの解析に失敗");
+                }
+                log(`🟢 JSONレスポンス: ${JSON.stringify(data)}`);
+                alert(data.success ? "確認成功！" : `確認失敗: ${data.error}`);
+            })
+            .catch(error => {
+                log(`🔴 エラー: ${error}`);
+                alert("エラーが発生しました");
+        });
+
+        if (data.massage == "豁｣蟶ｸ") {
+            alert("サーバーエラー");
+            return;
+        }
+        
         let URL = `https://scratch.hatena-scratch.f5.si/cloud-check?username=${username}&token=${token}`;
         log(`🟢 確認リクエストURL:${URL}`);
 
