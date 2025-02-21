@@ -115,6 +115,8 @@ textbox_element.appendChild(new_element);
             alert("サインインしてください");
             return;
         }
+        let payload = decodeTokenPayload(token);
+        log(`🟢 トークンユーザー:${payload.username}`);
 
         let URL = `https://scratch.hatena-scratch.f5.si/`;
         log(`🟢 確認リクエストURL:${URL}`);
@@ -145,7 +147,7 @@ textbox_element.appendChild(new_element);
             return;
         }
         
-        let URL = `https://scratch.hatena-scratch.f5.si/cloud-check?username=${username}&token=${token}`;
+        let URL = `https://scratch.hatena-scratch.f5.si/cloud-check?username=${payload.username}&token=${token}`;
         log(`🟢 確認リクエストURL:${URL}`);
 
         fetch(URL, { method: 'GET' })
@@ -169,12 +171,10 @@ textbox_element.appendChild(new_element);
                 alert("エラーが発生しました");
         });
 
-        if (data.success == False) {
+        if (data.success == false) {
             alert(data.error);
         }
 
-        let payload = decodeTokenPayload(token);
-        log(`🟢 トークンユーザー:${payload.username}`);
         let encodedTokenUser = encodeWithEncodelist(payload.username);
         let encodedScratchUser = encodeWithEncodelist(scratch_username);
         log(`🟢 エンコードユーザー:${encodedTokenUser}`);
