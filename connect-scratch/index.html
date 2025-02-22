@@ -108,93 +108,46 @@ textbox_element.appendChild(new_element);
         log(`🟢 UUID: ${UUID}`);
         log(`🟢 エンコードUUID: ${encodedUUID}`);
 
-        // **トークン取得**
         const token = localStorage.getItem("authToken");
-        log(`🟢 トークン:${token}`);
         if (!token || !isTokenValid(token)) {
             alert("サインインしてください");
             return;
         }
         let payload = decodeTokenPayload(token);
-        log(`🟢 トークンユーザー:${payload.username}`);
 
-        let URL = `https://scratch.hatena-scratch.f5.si/`;
-        log(`🟢 確認リクエストURL:${URL}`);
-
-        fetch(URL, { method: 'GET' })
-            .then(response => {
-                log(`🟢 ステータスコード: ${response.status}`);
-                return response.text();  // JSON解析前にテキストで確認
-            })
-            .then(text => {
-                log(`🟢 レスポンス内容: ${text}`);
-                let data;
-                try {
-                    data = JSON.parse(text);  // JSONに変換
-                } catch (e) {
-                      throw new Error("🔴 JSONの解析に失敗");
-                }
-                log(`🟢 JSONレスポンス: ${JSON.stringify(data)}`);
-                alert(data.success ? "確認成功！" : `確認失敗: ${data.error}`);
-            })
-            .catch(error => {
-                log(`🔴 エラー: ${error}`);
-                alert("エラーが発生しました");
-        });
-
-        if (data.massage == "豁｣蟶ｸ") {
-            alert("サーバーエラー");
-            return;
-        }
-        
         let URL = `https://scratch.hatena-scratch.f5.si/cloud-check?username=${payload.username}&token=${token}`;
         log(`🟢 確認リクエストURL:${URL}`);
 
         fetch(URL, { method: 'GET' })
-            .then(response => {
-                log(`🟢 ステータスコード: ${response.status}`);
-                return response.text();  // JSON解析前にテキストで確認
-            })
-            .then(text => {
-                log(`🟢 レスポンス内容: ${text}`);
-                let data;
-                try {
-                    data = JSON.parse(text);  // JSONに変換
-                } catch (e) {
-                      throw new Error("🔴 JSONの解析に失敗");
-                }
+            .then(response => response.json()) // 直接JSONに変換
+            .then(data => {
                 log(`🟢 JSONレスポンス: ${JSON.stringify(data)}`);
-                alert(data.success ? "確認成功！" : `確認失敗: ${data.error}`);
+
+                if (!data.success) {
+                    alert(`確認失敗: ${data.error}`);
+                    return;
+                }
+
+                let encodedTokenUser = encodeWithEncodelist(payload.username);
+                let encodedScratchUser = encodeWithEncodelist(scratch_username);
+                log(`🟢 エンコードユーザー:${encodedTokenUser}`);
+                log(`🟢 エンコードスクラッチユーザー:${encodedScratchUser}`);
+
+                let ID = `${encodedUUID}00${encodedScratchUser}00${encodedTokenUser}`;
+                document.getElementById("id").innerText = ID;
+                document.getElementById("formDiv").style.display = "none";
+                document.getElementById("idDisplayDiv").style.display = "block";
+
+                window.generatedID = ID;
+                window.generatedUsername = payload.username;
+                window.generatedScratchUsername = scratch_username;
+
+                log(`🟢 生成されたID:${ID}`);
             })
             .catch(error => {
                 log(`🔴 エラー: ${error}`);
                 alert("エラーが発生しました");
-        });
-
-        if (data.success == false) {
-            alert(data.error);
-        }
-
-        let encodedTokenUser = encodeWithEncodelist(payload.username);
-        let encodedScratchUser = encodeWithEncodelist(scratch_username);
-        log(`🟢 エンコードユーザー:${encodedTokenUser}`);
-        log(`🟢 エンコードスクラッチユーザー:${encodedScratchUser}`);
-        // **ID を生成**
-        let ID = `${encodedUUID}00${encodedScratchUser}00${encodedTokenUser}`;
-
-        // **IDをサイトに表示**
-        document.getElementById("id").innerText = ID;
-        document.getElementById("formDiv").style.display = "none";
-        document.getElementById("idDisplayDiv").style.display = "block"
-
-        let ID2 = `${encodedUUID}00${encodedScratchUser}00${encodedTokenUser}`;
-        
-        // **グローバル変数に保存**
-        window.generatedID = ID2;
-        window.generatedUsername = payload.username;
-        window.generatedScratchUsername = scratch_username;
-
-        log(`🟢 生成されたID:${ID}`);
+            });
     }
 
     // **IDを確認する**
