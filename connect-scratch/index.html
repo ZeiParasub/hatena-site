@@ -124,10 +124,15 @@ textbox_element.appendChild(new_element);
                 log(`🟢 JSONレスポンス: ${JSON.stringify(data)}`);
 
                 if (!data.success) {
-                    let result = confirm(`確認失敗: ${data.error} scratchのusernameを変更しますか？`);
-                    if (result) {
-                        window.allowdScratch = true;
+                    if (data.error.startsWith("ユーザー")) {
+                        let result = confirm(`確認失敗: ${data.error} scratchのusernameを変更しますか？`);
+                        if (result) {
+                            window.allowdScratch = true;
+                        } else {
+                            return;
+                        }
                     } else {
+                        alert(`確認失敗: ${data.error}`);
                         return;
                     }
                 } else {
