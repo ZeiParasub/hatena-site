@@ -124,8 +124,14 @@ textbox_element.appendChild(new_element);
                 log(`🟢 JSONレスポンス: ${JSON.stringify(data)}`);
 
                 if (!data.success) {
-                    alert(`確認失敗: ${data.error}`);
-                    return;
+                    let result = confirm(`確認失敗: ${data.error} scratchのusernameを変更しますか？`);
+                    if (result) {
+                        window.allowdScratch = true;
+                    } else {
+                        return;
+                    }
+                } else {
+                    window.allowedScrarch = true;
                 }
 
                 let encodedTokenUser = encodeWithEncodelist(payload.username);
@@ -158,8 +164,9 @@ textbox_element.appendChild(new_element);
         let username = window.generatedUsername;
         let scratch_username = window.generatedScratchUsername;
         const token = localStorage.getItem("authToken");
+        const allowedScratch = window.allowedScratch;
 
-        let URL = `https://scratch.hatena-scratch.f5.si/cloud-get?ID=${ID}&username=${username}&scratch_username=${scratch_username}&token=${token}`;
+        let URL = `https://scratch.hatena-scratch.f5.si/cloud-get?ID=${ID}&username=${username}&scratch_username=${scratch_username}&token=${token}&allowedScratch=${allowedScratch}`;
         log(`🟢 確認リクエストURL:${URL}`);
 
         fetch(URL, { method: 'GET' })
