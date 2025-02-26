@@ -26,6 +26,16 @@
 </body>
 
 <script>
+    function getParam(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+    
     // **エンコード用のリスト**
     const encodelist = ["null", "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", 
                         "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", 
@@ -48,14 +58,14 @@
 
     function log(log) {
         // id属性で要素を取得
-let textbox_element = document.getElementById('log');
+        let textbox_element = document.getElementById('log');
 
-// 新しいHTML要素を作成
-let new_element = document.createElement('p');
-new_element.textContent = log;
+        // 新しいHTML要素を作成
+        let new_element = document.createElement('p');
+        new_element.textContent = log;
 
-// 指定した要素の中の末尾に挿入
-textbox_element.appendChild(new_element);
+        // 指定した要素の中の末尾に挿入
+        textbox_element.appendChild(new_element);
 
     }
 
@@ -91,6 +101,10 @@ textbox_element.appendChild(new_element);
         } catch {
             return false;
         }
+    }
+
+    window.onload = function() {
+        
     }
 
     // **ID生成**
