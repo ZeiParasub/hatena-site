@@ -104,7 +104,8 @@
     }
 
     window.onload = function() {
-        
+        name = getParam(name);
+        document.getElementsByName("name")[0].value = name;
     }
 
     // **ID生成**
