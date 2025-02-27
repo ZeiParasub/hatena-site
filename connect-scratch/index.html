@@ -189,7 +189,7 @@
         const token = localStorage.getItem("authToken");
         const allowedScratch = window.allowedScratch;
 
-        let URL = `https://scratch.hatena-scratch.f5.si/cloud-get?ID=${ID}&username=${username}&scratch_username=${scratch_username}&token=${token}&allowedScratch=${allowedScratch}`;
+        let URL = `https://scratch.hatena-scratch.f5.si/scratch-database?ID=${ID}&username=${username}&scratch_username=${scratch_username}&token=${token}&allowedScratch=${allowedScratch}`;
         log(`🟢 確認リクエストURL:${URL}`);
 
         fetch(URL, { method: 'GET' })
