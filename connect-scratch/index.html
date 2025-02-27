@@ -104,8 +104,10 @@
     }
 
     window.onload = function() {
-        name = getParam(name);
-        document.getElementsByName("name")[0].value = name;
+        let name = getParam(name);
+        if name != null {
+            document.getElementsByName("name")[0].value = name;
+        }
     }
 
     // **ID生成**
